@@ -23,6 +23,7 @@ int main(){
     }
     printf("%d\n", j);
     
-
+    system("PAUSE");
     return 0;
 }
+//comentario para testar o repositório
