@@ -196,7 +196,17 @@ void lerItens(LISTA *l)
 void inverter(LISTA *l)
 {
 
-//Insira o código aqui
+	int i, j = tamanho(*l) - 1;
+	LISTA l2;
+	inicializar(&l2);
+
+	for (i = 0; i < tamanho(*l); i++)
+	{
+		inserirNaPos(enesimo(j, *l), i, &l2);
+		j--;
+	}
+	
+	*l = l2;
 
 }
 
