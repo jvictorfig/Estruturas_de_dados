@@ -169,75 +169,67 @@ void destruir(LISTA *l)
 }
 
 
-void lerItens(LISTA *l)
+/////////////////////////////////////////////////////////////////////
+
+// Objetivo: Remove o item contido na posicao pos.
+//           Caso seja possivel, retorna true. Caso contrario, retorna false.
+// Pre-condicao: 0 <= pos < tamanho
+bool removerDaPos(int pos, LISTA *l)
 {
-    int n;
-    scanf("%d", &n);
+  
+    int j;
 
-    // insere os valores n pares chave,valor
-    ITEM item;
-    for (int i = 0; i < n; i++)
-    {
-        scanf("%d", &item.chave);
-        scanf("%s", item.valor);
-        inserir(item, l);
-    }
-}
-
-
-
-//////////////////////////////////////////////////////////
-
-/*
-  Objetivo: Remove itens (nos) com chaves duplicadas na lista. 
-  Sera mantida a chave que tiver o menor indice no array de Itens.
-  A funcao deve retornar quantos valores duplicados foram removidos.
- */
-int removerDuplicados(LISTA *l)
-{
-
-    int duplicados = 0, i, j;
-    ITEM x, y;
-
-    for (i = 0; i < tamanho(*l); i++)
-    {
-        for (j = 0; j < tamanho(*l); j++)
-        { 
-            if (enesimo(i, *l).chave == enesimo(j, *l).chave && i != j)
-            {
-                remover(enesimo(j, *l).chave, &l);
-                duplicados++;
-            }
-            
-            
-        }
-        
-    }
-
-    duplicados = duplicados / 2;
-    return duplicados;
+    if (pos >= tamanho(*l) || pos < 0) return false;
     
-}
+    remover(enesimo(pos, *l).chave, l);
+    for (j = pos; j < tamanho(*l) + 1; j++) {
+        inserirNaPos(enesimo(j+1, *l), j, &l);
+    }
+    return true;
+    
 
+}
 
 /////////////////////////////////////////////////////////////////////
 
+
 int main(){
-   LISTA l;
+	LISTA l;
 	
-   inicializar(&l);	
-   lerItens(&l);
+	inicializar(&l);
+	
+    int n;
+    scanf("%d", &n);
 
-   printf("Tamanho l = %d\n", tamanho(l));
-   exibirLista(l);
-   printf("\n");
+	// insere os valores n pares chave,valor
+	ITEM item;
+	for (int i = 0; i < n; i++)
+    {
+        scanf("%d", &item.chave);
+   	    scanf("%s", item.valor);
+        inserir(item, &l);
+	}
 
-   int duplicados = removerDuplicados(&l);
-   printf("Tamanho l = %d\n", tamanho(l));
-   printf("Duplicados em l = %d\n", duplicados);
+	printf("Tamanho = %d\n", tamanho(l));
 
-   exibirLista(l);
-   printf("\n");
-    
-   return 0;
+    exibirLista(l);
+	printf("\n");
+
+    int pos;
+    scanf("%d", &pos);       
+    while (pos != -1)
+    {
+       if (removerDaPos(pos, &l))
+          printf("Removeu da posicao %d\n", pos); 
+       else
+          printf("Nao removeu da posicao %d\n", pos);
+       scanf("%d", &pos);
+    }
+
+    printf("Imprimindo a lista apos a remocao\n");
+    printf("Tamanho = %d\n", tamanho(l));
+ 	exibirLista(l);
+	printf("\n");
+
+	return 0;
 }
