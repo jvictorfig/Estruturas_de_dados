@@ -189,49 +189,55 @@ void lerItens(LISTA *l)
 //////////////////////////////////////////////////////////
 
 /*
-  Objetivo: Inverte a lista, fazendo com que o primeiro
-            item fique na posicao do ultimo, o segundo
-            na posicao do penultimo e assim por diante.
+  Objetivo: Remove itens (nos) com chaves duplicadas na lista. 
+  Sera mantida a chave que tiver o menor indice no array de Itens.
+  A funcao deve retornar quantos valores duplicados foram removidos.
  */
-void inverter(LISTA *l)
+int removerDuplicados(LISTA *l)
 {
 
-	int i, j = tamanho(*l) - 1;
-	LISTA l2;
-	inicializar(&l2);
+    int duplicados = 0, i, j;
+    ITEM x, y;
 
-	for (i = 0; i < tamanho(*l); i++)
-	{
-		inserirNaPos(enesimo(j, *l), i, &l2);
-		j--;
-	}
+    for (i = 0; i < tamanho(*l); i++)
+    {
+        for (j = 0; j < tamanho(*l); j++)
+        { 
+            if (enesimo(i, *l).chave == enesimo(j, *l).chave && i != j)
+            {
+                remover(enesimo(j, *l).chave, &l);
+                duplicados++;
+            }
+            
+            
+        }
+        
+    }
 
-	*l = l2;
-
+    duplicados = duplicados / 2;
+    return duplicados;
+    
 }
+
 
 /////////////////////////////////////////////////////////////////////
 
 int main(){
-	LISTA l;
+   LISTA l;
 	
-	inicializar(&l);	
-    lerItens(&l);
-	printf("Tamanho l = %d\n", tamanho(l));
-    exibirLista(l);
-	printf("\n");
+   inicializar(&l);	
+   lerItens(&l);
 
-    inverter(&l);
+   printf("Tamanho l = %d\n", tamanho(l));
+   exibirLista(l);
+   printf("\n");
 
-    printf("Tamanho l = %d\n", tamanho(l));
-    exibirLista(l);
-    printf("\n");
+   int duplicados = removerDuplicados(&l);
+   printf("Tamanho l = %d\n", tamanho(l));
+   printf("Duplicados em l = %d\n", duplicados);
 
-    // Lendo mais itens para vefificar se a lista esta correta
-    lerItens(&l);
-    printf("Tamanho l = %d\n", tamanho(l));
-    exibirLista(l);
-    printf("\n");
+   exibirLista(l);
+   printf("\n");
     
-	return 0;
+   return 0;
 }
