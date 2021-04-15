@@ -177,16 +177,15 @@ void destruir(LISTA *l)
 bool removerDaPos(int pos, LISTA *l)
 {
   
-    int j;
+	int j;
 
     if (pos >= tamanho(*l) || pos < 0) return false;
     
     remover(enesimo(pos, *l).chave, l);
-    for (j = pos; j < tamanho(*l) + 1; j++) {
-        inserirNaPos(enesimo(j+1, *l), j, &l);
+    for (j = pos; j < tamanho(*l); j++) {
+        if (j == 0) break;
     }
     return true;
-    
 
 }
 
