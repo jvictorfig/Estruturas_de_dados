@@ -138,22 +138,20 @@ bool inserirNaPos(ITEM item, int i, LISTA *l)
 bool encontrarPosInsercao(ITEM item, int *pos, LISTA *l)
 {
 
-    int i;
+    int i = 0;
+
+    if (cheia(l))   return false;
+    
     if (busca(item.chave, l) == -1)
     {
-        for (i = 0; i <= l->tamanho; i++)
-        {   
-            if (*pos == l->tamanho)
-            {
-                return true;
-            } else *pos = *pos + 1;
-        
-        }
-    } else return false;
+        while (l->itens[i].chave < item.chave && i < tamanho(l))    i++;
+        *pos = i;
+        return true;
+    }
+
+    return false;
     
 }
-
-
 
 /*
  Objetivo: Inserir em uma lista ordenada o item passado e garantir
