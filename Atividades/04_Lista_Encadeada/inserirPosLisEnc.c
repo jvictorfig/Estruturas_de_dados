@@ -107,48 +107,78 @@ void imprimirLista(LISTA *l)
 bool inserirNaPos(ITEM item, int posInsercao, LISTA *l)
 {
 
-    if (posInsercao < 0 || posInsercao > tamanho(l)){
-        printf("Posicao invalida!\n");
-        return false;
-    }
-
     if (vazia(l))
     {
-        //printf("Ainda ta vazia!\n");
-        l->cabeca = criarNo(item, NULL);
-        //printf("criou!\n");
+        if (posInsercao == 0)
+        {
+            l->cabeca = criarNo(item, NULL);
+            return true;
+        } else return false;
     }
 
-    NO *pAnterior = l->cabeca, *pProximo = l->cabeca->prox, *pAtual;
+    if (tamanho(l) == 1)
+    {
+        if (l->cabeca->item.chave == item.chave) return false;
+        if (posInsercao == 0)
+        {
+            l->cabeca = criarNo(item, l->cabeca);
+            return true;
+        }
+        if (posInsercao == 1)
+        {
+            l->cabeca->prox = criarNo(item, NULL);
+            return true;
+        }
+    return false;      
+    }
+    
+    NO *pAnterior = l->cabeca, *pAtual = pAnterior->prox;
     int i;
 
-    for (i = 0; i < posInsercao; i++)
-    {
-        if (item.chave == pAnterior->item.chave)
-        {
-            printf("Chave ja existe!\n");
-            return false;
-        }
+    if (posInsercao < 0 || posInsercao > tamanho(l)) return false; 
 
+    for (i = 0; i < tamanho(l); i++)
+    {
+        if (pAnterior->item.chave == item.chave) return false;
+        if (pAnterior->prox == NULL) break;
+        pAnterior = pAtual;
+        pAtual = pAnterior->prox; 
+    }
+    
+    pAnterior = l->cabeca;
+    pAtual = pAnterior->prox;
+
+    if (posInsercao == 0)
+    {
+        l->cabeca = criarNo(item, pAnterior);
+        return true;
+    }
+    
+    if (posInsercao == tamanho(l))
+    {
+        for (i = 0; i < tamanho(l); i++)
+        {
+            if (pAnterior->prox == NULL)
+            {
+                pAnterior->prox = criarNo(item, pAtual);
+                return true;
+            }
+            pAnterior = pAtual;
+            pAtual = pAnterior->prox;
+        }  
+    }
+
+    for (i = 0; i < tamanho(l); i++)
+    {
         if (i == posInsercao - 1)
         {
-            //printf("Adicionando...\n");
             pAnterior->prox = criarNo(item, pAtual);
             return true;
-        }   
+        }
         pAnterior = pAtual;
-        pAtual = pAnterior->prox;
-
-    }
-    return false;
-    
-    
-
-    
-    
-    
-    
-
+        pAtual = pAnterior->prox;     
+    } 
+   return false; 
   
 }
 
